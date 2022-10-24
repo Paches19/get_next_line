@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:10:24 by adpachec          #+#    #+#             */
-/*   Updated: 2022/10/19 13:20:20 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/10/24 12:15:07 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char const *s2);
 void	utils(void);
 size_t	ft_strlen(const char *s);
+char	*write_last(char *str, int len_s1, const char *s2, int i);
 
 #endif
