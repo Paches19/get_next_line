@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:10:24 by adpachec          #+#    #+#             */
-/*   Updated: 2022/10/25 12:14:08 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/10/26 10:38:22 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char **s2);
 void	utils(void);
 size_t	ft_strlen(char *s, int gnl);
-char	*write_last(char *str, int len_s1, char s2, int i);
+char	*write_last(char **str, int len_s1, char s2, int i);
 
 #endif

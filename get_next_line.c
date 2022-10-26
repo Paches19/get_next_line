@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:42:50 by adpachec          #+#    #+#             */
-/*   Updated: 2022/10/25 13:20:46 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/10/26 12:14:32 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_strchr(char *s, int c)
 {
 	int		i;
 
-	if (!s)
+	if (!s || !c)
 		return (NULL);
 	i = 0;
 	while (s[i])
@@ -71,51 +71,46 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*write_last(char *str, int len_s1, char s2, int i)
+char	*write_last(char **str, int len_s1, char s2, int i)
 {
-	//printf("\ns2i: %c\n", s2);
 	if (s2 == '\n')
-	{
-		str[len_s1 + i] = s2;
-		//printf("\nhola\n");
-		return (str);
-	}
-	return (str);
+		(*str)[len_s1 + i] = s2;
+	return (*str);
 }
 
-char	*ft_strjoin(char *s1, char **s2)
+char	*ft_strjoin(char *line, char **save_read)
 {
 	char			*str;
 	int				i;
-	const size_t	len_s1 = ft_strlen(s1, 0);
-	const size_t	len_s2 = ft_strlen(*s2, 1);
+	const size_t	len_line = ft_strlen(line, 0);
+	const size_t	len_save_read = ft_strlen(*save_read, 1);
 
-	//printf("\nlen1: %zu", len_s1);
-	//printf("\nlen2: %zu", len_s2);
-	if (!(*s2)[0])
+	//printf("\nlen1: %zu", len_line);
+	//printf("\nlen2: %zu", len_save_read);
+	if (!(*save_read)[0])
 	{
-		free (*s2);
-		return (s1);
+		free (*save_read);
+		return (line);
 	}
-	str = (char *) ft_calloc(sizeof(char) * (len_s1 + len_s2 + 2), 1);
+	str = (char *) ft_calloc(sizeof(char) * (len_line + len_save_read + 2), 1);
 	if (!str)
 	{
-		if (s1)
-			return (s1);
+		if (line)
+			return (line);
 		return (NULL);
 	}
 	i = -1;
-	if (s1)
+	if (line)
 	{
-		while (s1[++i])
-			str[i] = s1[i];
+		while (line[++i])
+			str[i] = line[i];
 	}
 	i = -1;
-	//printf("\ns2: %d", str[len_s1 + 0]);
-	while ((*s2)[++i] && (*s2)[i] != '\n')
-		str[len_s1 + i] = (*s2)[i];
-	write_last(str, len_s1, (*s2)[i], i);
-	free (s1);
+	while ((*save_read)[++i] && (*save_read)[i] != '\n')
+		str[len_line + i] = (*save_read)[i];
+	//printf("\nsave_read: %d", (*save_read)[i]);
+	write_last(&str, len_line, (*save_read)[i], i);
+	free (line);
 	return (str);
 }
 
@@ -154,7 +149,6 @@ char	*delete_line(char **save_read)
 	i = 0;
 	while ((*save_read)[i] && (*save_read)[i] != '\n')
 		++i;
-	len = ft_strlen(*save_read, 0) - i;
 	//printf("\ni: %d", i);
 	if ((*save_read)[i] == '\0')
 	{
@@ -162,11 +156,12 @@ char	*delete_line(char **save_read)
 		free (*save_read);
 		return (NULL);
 	}
+	len = ft_strlen(*save_read, 0) - i;
 	new_read = (char *) ft_calloc(1, len + 1);
 	j = 0;
 	while ((*save_read)[++i])
 		new_read[j++] = (*save_read)[i];
-	//printf("\ndelete: %s", new_read);
+	//printf("\ndelete: %d", new_read[0]);
 	free (*save_read);
 	return (new_read);
 }
@@ -189,7 +184,7 @@ char	*save_to_line(int fd, char *line, char **save_read, ssize_t *read_len)
 	//printf("\nsr stl: %d", (*save_read)[0]);
 	if (*read_len > 0 || (*save_read)[0] != '\0')
 		line = ft_strjoin(line, &(*save_read));
-	//printf("\nline: %s", line);
+	//printf("\nline: %d", line[0]);
 	return (line);
 }
 
@@ -197,18 +192,23 @@ char	*read_fd(int fd, char *line)
 {
 	ssize_t		read_len;
 	static char	*save_read;
+	int			i;
 
 	read_len = 0;
 	line = save_to_line(fd, line, &save_read, &read_len);
 	//printf("\nline rfd: %s", line);
-	//printf("\nsr rfd1: %s", save_read);
+	//printf("\nread_len: %zd", read_len);
 	save_read = delete_line(&save_read);
 	//printf("\nsr rfd2: %s", save_read);
-	if (read_len <= 0)
+	if (read_len < 0)
 		return (NULL);
-	while (read_len > 0 && !ft_strchr(line, '\n') && !ft_strchr(line, '\0'))
+	if (!save_read)
+		read_len++;
+	i = -1;
+	while (read_len > 0 && !ft_strchr(line, '\n'))
 	{
 		line = save_to_line(fd, line, &save_read, &read_len);
+		//printf("\nline postwhile: %s", line);
 		save_read = delete_line(&save_read);
 		//printf("\nsrlast: %s", save_read);
 	}
@@ -223,7 +223,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = NULL;
 	line = read_fd(fd, line);
-	//printf("\nline last: %s", line);
+	//printf("\nline last:\n%s", line);
 	return (line);
 }
 
@@ -231,12 +231,13 @@ char	*get_next_line(int fd)
 // {
 // 	int fd;
 
-// 	fd = open("fd.txt", O_RDONLY);
+// 	fd = open("variable_nls.txt", O_RDONLY);
 // 	get_next_line(fd);
-// 	printf("fin\n\n\n");
 // 	get_next_line(fd);
-// 	printf("fin\n\n\n");
 // 	get_next_line(fd);
-// 	printf("fin\n\n\n");
 // 	get_next_line(fd);
+// 	get_next_line(fd);
+// 	get_next_line(fd);
+// 	get_next_line(fd);
+// 	//get_next_line(fd);
 // }
