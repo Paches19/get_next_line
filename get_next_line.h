@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:10:24 by adpachec          #+#    #+#             */
-/*   Updated: 2022/10/26 10:38:22 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/10/26 16:29:21 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,21 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdio.h>
-# include <stdbool.h>
-# include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE BUFSIZ
+#  define BUFFER_SIZE 42
 # endif
 
-# if BUFFER_SIZE > 100000
+# if BUFFER_SIZE > 999999
 #  undef BUFFER_SIZE
-#  define BUFFER_SIZE 100000
+#  define BUFFER_SIZE 999999
 # endif
 
 char	*get_next_line(int fd);
-char	*ft_strjoin(char *s1, char **s2);
-void	utils(void);
-size_t	ft_strlen(char *s, int gnl);
+char	*ft_strjoin(char *line, char **save_read);
 char	*write_last(char **str, int len_s1, char s2, int i);
+char	*ft_strchr(char *s, int c);
+size_t	ft_strlen(char *s, int gnl);
+char	*ft_calloc(size_t count, size_t size);
 
 #endif
