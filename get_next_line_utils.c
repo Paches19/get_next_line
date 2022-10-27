@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:15:14 by adpachec          #+#    #+#             */
-/*   Updated: 2022/10/26 16:45:48 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/10/27 10:47:21 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ char	*ft_calloc(size_t count, size_t size)
 
 	if (!count)
 		return (malloc(0));
-	if (len / count != size)
-		return (NULL);
 	ptr = (char *) malloc(len);
 	if (!ptr)
 		return (NULL);
@@ -38,9 +36,9 @@ size_t	ft_strlen(char *s, int gnl)
 {
 	size_t	len;
 
-	len = 0;
 	if (!s)
 		return (0);
+	len = 0;
 	if (!gnl)
 	{
 		while (s[len])
@@ -54,20 +52,19 @@ size_t	ft_strlen(char *s, int gnl)
 	return (len);
 }
 
-char	*ft_strchr(char *s, int c)
+int	ft_strchr(char *s, int c)
 {
 	int		i;
 
-	if (!s || !c)
-		return (NULL);
-	i = 0;
-	while (s[i])
+	if (!s)
+		return (0);
+	i = -1;
+	while (s[++i])
 	{
 		if (s[i] == (char) c)
-			return ((char *) &s[i]);
-		++i;
+			return (1);
 	}
-	return (NULL);
+	return (0);
 }
 
 char	*write_last(char **str, int len_s1, char s2, int i)
