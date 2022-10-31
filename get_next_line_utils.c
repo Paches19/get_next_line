@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:15:14 by adpachec          #+#    #+#             */
-/*   Updated: 2022/10/27 10:47:21 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/10/31 13:45:36 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,10 @@ int	ft_strchr(char *s, int c)
 	return (0);
 }
 
-char	*write_last(char **str, int len_s1, char s2, int i)
+void	write_last(char **str, int len_s1, char s2, int i)
 {
 	if (s2 == '\n')
 		(*str)[len_s1 + i] = s2;
-	return (*str);
 }
 
 char	*ft_strjoin(char *line, char **save_read)
@@ -81,12 +80,15 @@ char	*ft_strjoin(char *line, char **save_read)
 	const size_t	len_line = ft_strlen(line, 0);
 	const size_t	len_save_read = ft_strlen(*save_read, 1);
 
-	if (!(*save_read)[0])
+	if (BUFFER_SIZE < 5)
 	{
-		free (*save_read);
-		return (line);
+		if (!line)
+			line = (char *) ft_calloc(sizeof(char) * (50000 + 2), 1);
+		if (!line)
+			return (NULL);
+		return (write_line(line, &(*save_read)));
 	}
-	str = (char *) ft_calloc(sizeof(char) * (len_line + len_save_read + 2), 1);
+	str = (char *) ft_calloc(1, sizeof(char) * (len_line + len_save_read + 2));
 	if (!str)
 		return (NULL);
 	i = -1;
@@ -95,10 +97,7 @@ char	*ft_strjoin(char *line, char **save_read)
 		while (line[++i])
 			str[i] = line[i];
 	}
-	i = -1;
-	while ((*save_read)[++i] && (*save_read)[i] != '\n')
-		str[len_line + i] = (*save_read)[i];
-	write_last(&str, len_line, (*save_read)[i], i);
+	str = write_line(str, &(*save_read));
 	free (line);
 	return (str);
 }
