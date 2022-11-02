@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:15:14 by adpachec          #+#    #+#             */
-/*   Updated: 2022/11/02 11:06:27 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/11/02 12:25:19 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,17 @@
 
 char	*ft_calloc(size_t count, size_t size)
 {
-	char			*ptr;
-	const size_t	len = count * size;
-	size_t			i;
+	char	*ptr;
+	size_t	len;
 
-	if (!count)
+	if (!count || !size)
 		return (malloc(0));
+	len = count * size;
 	ptr = (char *) malloc(len);
 	if (!ptr)
 		return (NULL);
-	i = 0;
-	while (i < len && len > 0)
-	{
-		ptr[i] = 0;
-		++i;
-	}
+	while (len)
+		ptr[--len] = 0;
 	return (ptr);
 }
 
@@ -67,10 +63,17 @@ int	ft_strchr(char *s, int c)
 	return (0);
 }
 
-void	write_last(char **str, int len_s1, char s2, int i)
+char	*ft_memcpy(char *dst, char *src)
 {
-	if (s2 == '\n')
-		(*str)[len_s1 + i] = s2;
+	int	j;
+
+	j = -1;
+	if (!dst && !src)
+		return (NULL);
+	while (src[++j])
+		dst[j] = src[j];
+	free (src);
+	return (dst);
 }
 
 char	*ft_strjoin(char *line, char **save_read)

@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:42:50 by adpachec          #+#    #+#             */
-/*   Updated: 2022/11/02 11:12:19 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/11/02 12:24:48 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,23 @@ char	*write_line(char *line, char **save_read)
 	const size_t	len_line = ft_strlen(line, 0);
 
 	j = -1;
-	if (BUFFER_SIZE < 5 && !line)
+	if (BUFFER_SIZE < 5 && (!line || !(len_line % 1008)))
 	{
-		str = (char *) ft_calloc(sizeof(char) * (50000 + 2), 1);
+		str = (char *) ft_calloc(sizeof(char) * (1008 + len_line + 2), 1);
 		if (!str)
 			return (NULL);
+		if (line)
+			str = ft_memcpy(str, line);
 		while ((*save_read)[++j] && (*save_read)[j] != '\n')
+			str[len_line + j] = (*save_read)[j];
+		if ((*save_read)[j] == '\n')
 			str[j] = (*save_read)[j];
-		write_last(&str, len_line, (*save_read)[j], j);
 		return (str);
 	}
 	while ((*save_read)[++j] && (*save_read)[j] != '\n')
 		line[len_line + j] = (*save_read)[j];
-	write_last(&line, len_line, (*save_read)[j], j);
+	if ((*save_read)[j] == '\n')
+		line[len_line + j] = (*save_read)[j];
 	return (line);
 }
 

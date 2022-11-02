@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:10:24 by adpachec          #+#    #+#             */
-/*   Updated: 2022/10/31 13:48:05 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/11/02 12:25:22 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char *line, char **save_read);
-void	write_last(char **str, int len_s1, char s2, int i);
+char	*ft_memcpy(char *dst, char *src);
 int		ft_strchr(char *s, int c);
 size_t	ft_strlen(char *s, int gnl);
 char	*ft_calloc(size_t count, size_t size);
