@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:42:50 by adpachec          #+#    #+#             */
-/*   Updated: 2022/10/31 13:48:25 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/11/02 11:12:19 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,22 @@ char	*write_line(char *line, char **save_read)
 {
 	char			*str;
 	int				j;
-	int				i;
 	const size_t	len_line = ft_strlen(line, 0);
 
 	j = -1;
 	if (BUFFER_SIZE < 5 && !line)
 	{
 		str = (char *) ft_calloc(sizeof(char) * (50000 + 2), 1);
-		while ((*save_read)[++j])
+		if (!str)
+			return (NULL);
+		while ((*save_read)[++j] && (*save_read)[j] != '\n')
 			str[j] = (*save_read)[j];
+		write_last(&str, len_line, (*save_read)[j], j);
 		return (str);
 	}
-	else if (BUFFER_SIZE < 5)
-	{
-		while ((*save_read)[++j] && (*save_read)[j] != '\n')
-			line[len_line + j] = (*save_read)[j];
-		write_last(&line, len_line, (*save_read)[j], j);
-		return (line);
-	}
-	i = -1;
-	while ((*save_read)[++i] && (*save_read)[i] != '\n')
-		line[len_line + i] = (*save_read)[i];
-	write_last(&line, len_line, (*save_read)[i], i);
+	while ((*save_read)[++j] && (*save_read)[j] != '\n')
+		line[len_line + j] = (*save_read)[j];
+	write_last(&line, len_line, (*save_read)[j], j);
 	return (line);
 }
 
