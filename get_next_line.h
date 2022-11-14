@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:10:24 by adpachec          #+#    #+#             */
-/*   Updated: 2022/11/02 12:25:22 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/11/14 12:36:46 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-#include "fcntl.h"
+# include "fcntl.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42

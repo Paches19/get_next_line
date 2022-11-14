@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:42:50 by adpachec          #+#    #+#             */
-/*   Updated: 2022/11/02 12:24:48 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/11/14 12:59:17 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,13 @@ ssize_t *read_len)
 	}
 	if (*read_len > 0 || (*save_read)[0] != '\0')
 		line = ft_strjoin(line, &(*save_read));
+	if (*read_len < 0)
+	{
+		free (*save_read);
+		*save_read = NULL;
+		free (line);
+		return (NULL);
+	}
 	return (line);
 }
 
@@ -89,6 +96,8 @@ static char	*read_fd(int fd, char *line)
 
 	read_len = 0;
 	line = save_to_line(fd, line, &save_read, &read_len);
+	if (read_len < 0)
+		return (NULL);
 	save_read = delete_line(&save_read);
 	if (!save_read)
 		read_len++;
@@ -97,6 +106,8 @@ static char	*read_fd(int fd, char *line)
 	while (read_len > 0)
 	{
 		line = save_to_line(fd, line, &save_read, &read_len);
+		if (read_len < 0)
+			return (NULL);
 		if (ft_strchr(save_read, '\n'))
 		{
 			save_read = delete_line(&save_read);
