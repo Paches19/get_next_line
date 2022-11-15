@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:15:14 by adpachec          #+#    #+#             */
-/*   Updated: 2022/11/02 12:25:19 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/11/15 10:41:06 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_calloc(size_t count, size_t size)
 	if (!count || !size)
 		return (malloc(0));
 	len = count * size;
+	if (len / count != size)
+		return (NULL);
 	ptr = (char *) malloc(len);
 	if (!ptr)
 		return (NULL);
