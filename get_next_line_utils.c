@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:15:14 by adpachec          #+#    #+#             */
-/*   Updated: 2022/11/15 10:41:06 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/12/13 17:24:16 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ char	*ft_strjoin(char *line, char **save_read)
 	const size_t	len_line = ft_strlen(line, 0);
 	const size_t	len_save_read = ft_strlen(*save_read, 1);
 
-	if (BUFFER_SIZE < 5)
-		return (write_line(line, &(*save_read)));
 	str = (char *) ft_calloc(1, sizeof(char) * (len_line + len_save_read + 2));
 	if (!str)
 		return (NULL);

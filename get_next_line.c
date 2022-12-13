@@ -6,7 +6,7 @@
 /*   By: adpachec <adpachec@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:42:50 by adpachec          #+#    #+#             */
-/*   Updated: 2022/11/14 12:59:17 by adpachec         ###   ########.fr       */
+/*   Updated: 2022/12/13 17:24:10 by adpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,6 @@ char	*write_line(char *line, char **save_read)
 	const size_t	len_line = ft_strlen(line, 0);
 
 	j = -1;
-	if (BUFFER_SIZE < 5 && (!line || !(len_line % 1008)))
-	{
-		str = (char *) ft_calloc(sizeof(char) * (1008 + len_line + 2), 1);
-		if (!str)
-			return (NULL);
-		if (line)
-			str = ft_memcpy(str, line);
-		while ((*save_read)[++j] && (*save_read)[j] != '\n')
-			str[len_line + j] = (*save_read)[j];
-		if ((*save_read)[j] == '\n')
-			str[j] = (*save_read)[j];
-		return (str);
-	}
 	while ((*save_read)[++j] && (*save_read)[j] != '\n')
 		line[len_line + j] = (*save_read)[j];
 	if ((*save_read)[j] == '\n')
